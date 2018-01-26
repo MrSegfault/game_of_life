@@ -54,26 +54,26 @@ int main(int argc, char **argv){
 	}
 	PRINT_IT;
 	
-	while(1){
+	while(1){ //proceed forever
 		t++;
-		for(i=0;i<rows;i++){
+		for(i=0;i<rows;i++){ //for every item in the matrix
 			for(j=0;j<cols;j++){
 				count=0;
-				lim1=(j>0)?-1:0;
+				lim1=(j>0)?-1:0; //check if we can expect neighbors from left and right
 				lim2=(j<cols-1)?1:0;
-				if(i>0){
+				if(i>0){ //if there are neighbors over one item
 					for(n=lim1;n<=lim2;n++){
 						if(matrix[i-1][j+n]==ALIVE){count++;}
 					}
 				}
-				if(j>0 && matrix[i][j-1]==ALIVE){count++;}
+				if(j>0 && matrix[i][j-1]==ALIVE){count++;} //same line as the item, left and right
 				if(j<cols-1 && matrix[i][j+1]==ALIVE){count++;}
-				if(i<rows-1){
+				if(i<rows-1){ //neighbors under the item
 					for(n=lim1;n<=lim2;n++){
 						if(matrix[i+1][j+n]==ALIVE){count++;}
 					}
 				}
-				if(matrix[i][j]==ALIVE){
+				if(matrix[i][j]==ALIVE){ //check if the cell is bound to die or be born
 					if(count<2 || count>3){
 						next[i][j]=DEAD;
 					}
@@ -85,12 +85,12 @@ int main(int argc, char **argv){
 			}
 		}
 		for(i=0;i<rows;i++){
-			memcpy(&matrix[i],&next[i],cols);
-			memcpy(&printer[i*cols+i],&matrix[i],cols);
+			memcpy(&matrix[i],&next[i],cols); //store the "next matrix" as the current matrix
+			memcpy(&printer[i*cols+i],&matrix[i],cols); //update the printer
 		}
 		puts("\n\n");
-		PRINT_IT;
-		usleep(100000);
+		PRINT_IT; //print iteration
+		usleep(100000); //wait for a while
 	}
 }
 
